@@ -27,9 +27,6 @@ package com.example.k5_iot_springboot.이론;
     cf) 영속성 컨텍스트
     : 엔티티의 생명주기를 관리하는 공간
     - DB와의 연결은 유지하면서 엔티티 객체들을 관리
-
-
-    
  */
 
 
