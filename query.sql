@@ -12,8 +12,30 @@ CREATE DATABASE IF NOT EXISTS k5_iot_springboot
 USE k5_iot_springboot;
 
 # 0811 (A_Test)
-CREATE TABLE IF NOT EXISTS test_id (
-	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS test (
+	test_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL
 );
-SELECT * FROM test_id;
+SELECT * FROM test;
+
+# 0812 (B_Student)
+CREATE TABLE IF NOT EXISTS students (
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    UNIQUE KEY uq_name_email (name, email)
+    # : name + email 조합이 유일하도록 설정
+);
+SELECT * FROM students;
+
+
+
+
+
+
+
+
+
+
+
+

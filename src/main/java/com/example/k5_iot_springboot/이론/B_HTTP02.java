@@ -9,7 +9,7 @@ package com.example.k5_iot_springboot.이론;
         4) TCP/IP: 신뢰성 있는 데이터 전송을 위한 통신 규약
             - HTTP(웹 브라우징 전송)
             - FTP(파일 전송)
-            - SMP(이메일 전송)
+            - SMTP(이메일 전송)
 
         cf) HTTP 기본 포트: 80
             HTTPS 기본 포트: 443 (Security)
@@ -29,9 +29,9 @@ package com.example.k5_iot_springboot.이론;
             - CRUD
             [POST] /boards : 게시글을 저장해줘
             [GET] /boards : 게시글 전체를 조회해줘
-            [GET] /boards/고유 ID : 해당 ID의 게시글을 조회해줘
-            [PUT] /boards/고유 ID : 해당 ID의 게시글을 수정해줘
-            [DELETE] /boards/고유 ID : 해당 ID의 게시글을 삭제해줘
+            [GET] /boards/고유ID : 해당 ID의 게시글을 조회해줘
+            [PUT] /boards/고유ID : 해당 ID의 게시글을 수정해줘
+            [DELETE] /boards/고유ID : 해당 ID의 게시글을 삭제해줘
 
     2. HTTP 상태 코드 (Status Code)
     : 요청에 대한 처리 결과를 숫자와 간단한 메시지로 알려줌
@@ -43,17 +43,13 @@ package com.example.k5_iot_springboot.이론;
         2) 400 - 개발자가 처리해야 하는 문제
             400 Bad Request: 잘못된 요청 (요청 데이터 누락 및 유효성 오류 & 요청 메서드 오류)
             401 Unauthorized: 인증 실패
-                (EX. 사원증 없이 회사 출입 금지, 블로그 가입 없이 내용 확인 불가)
+                (EX. 사원증 없이 회사 출입 금지, 카페 가입 없이 내용 확인 불가)
             403 Forbidden: 권한 없음
-                (EX. 회사 내 보안 문서는 권한 없이는 글쓰기 불가)
+                (EX. 회사 내 보안 문서는 권한 없이 열람 불가, 카페 권한 없이는 글쓰기 불가)
             404 NOT FOUND: 요청 자체를 찾을 수 없음 (해당하는 요청이 아예 없음)
 
-        3) 500 - 서버 문제 (개발자가 해결할 수 없는 문제)
+        3) 500 - 개발자가 해결할 수 없는 문제
             500 Internal Server Error: 서버 문제
-
- */
-
-
-
+*/
 public class B_HTTP02 {
 }

@@ -3,7 +3,7 @@ package com.example.k5_iot_springboot.이론;
 /*
     === URI VS URL ===
     1. URI (Uniform Resource Identifier)
-    : 웹의 자원을 식별(누구인지)하는 이름표 (문자열)
+    : 웹의 자원을 식별하는 이름표 (문자열)
     - 웹 페이지, 이미지, 파일, 서비스 "엔드 포인트"
 
     2. URL (Uniform Resource Locator)
@@ -12,10 +12,10 @@ package com.example.k5_iot_springboot.이론;
 
     cf) URL은 URI의 한 종류 (URI가 더 포괄적 개념)
 
-    https://n.news.naver.com/mnews/article/018.0006087057?sort=asc
+    https://n.news.naver.com/mnews/article/018/0006087057?sort=asc
     >> URL
-        - https: 스킴 (프로토콜, 접근 방법)
-        - n.news.naver.com: 호스트 + 포트(localhost:8080 - 어느 컴퓨터인지, 어떤 서버인지)
+        - https: 스킴(프로토콜, 접근 방법)
+        - n.news.naver.com: 호스트+포트(localhost:8080 - 어느 컴퓨터인지, 어떤 서버인지)
         - mnews/article: 경로(path, 자원을 나타냄)
         - sort=asc: 쿼리(추가 조건)
 
@@ -39,7 +39,7 @@ package com.example.k5_iot_springboot.이론;
     @PutMapping
 
     @DeleteMapping("/{id}")
- */
+*/
 
 public class J_URI {
 }

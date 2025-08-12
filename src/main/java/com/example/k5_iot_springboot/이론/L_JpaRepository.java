@@ -29,6 +29,7 @@ package com.example.k5_iot_springboot.이론;
     cf) E: 엔티티 클래스 타입 - DB 테이블과 매핑되는 클래스
         Id: 엔티티의 기본키(PK)와 매핑되는 데이터
 
+
     2. 쿼리 메서드
     : 메서드 이름만으로 JPQL(또는 SQL) 쿼리를 자동 생성하는 기능
     - 별도 쿼리 작성 없이 이름 규칙에 따라 Spring Data JPA가 내부에서 해석하여 쿼리를 생성
@@ -38,17 +39,17 @@ package com.example.k5_iot_springboot.이론;
         - SQL을 기반으로 한 객체 모델용 쿼리 언어
 
     1) 쿼리 메서드 기본 구조
-    - 보통 find, read, get, query 같은 키워드로 시작 (주로 find 사용)
+    - 보통 find, read, get, query 같은 키워드로 시작(주로 find 사용)
     - 위 키워드 뒤에 By를 붙여 조건을 명시
 
-    반환타입 findBy 필드명(필드타입 값);
-    반환타입 findBy 필드명And다른필드명(필드타입 값 1, 필드타입 값 2);
+    반환타입 findBy필드명(필드타입 값);
+    반환타입 findBy필드명And다른필드명(필드타입 값1, 필드타입 값2);
 
     And: And 조건 - findByNameAndCategory
     Or: Or 조건 - findByNameOrCategory
     Between: 범위 검색 - findByPriceBetween(값1, 값2)
 
-    Less Than / LessThanEqual: 미만, 이하
+    LessThan / LessThanEqual: 미만, 이하
     GreaterThan / GreaterThanEqual: 초과, 이상
 
     IsNull / IsNotNull: Null 여부 확인 - findByDescriptionIsNull
@@ -62,10 +63,9 @@ package com.example.k5_iot_springboot.이론;
     OrderBy
 
     cf) 조건이 복잡하거나 조인이 필요한 경우, 메서드 이름만으로 한계가 존재
-        - 직접 쿼리를 작성  가능
+        - 직접 쿼리를 작성 가능
         >> @Query
-
- */
+*/
 
 import java.util.List;
 
@@ -75,7 +75,6 @@ class Product {
     private String category;
     private int price;
 }
-
 
 public interface L_JpaRepository {
 

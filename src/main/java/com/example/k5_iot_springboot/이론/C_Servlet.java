@@ -11,20 +11,20 @@ package com.example.k5_iot_springboot.이론;
             , 자바 코드를 통해 웹 페이지 생성 | 데이터 처리 후 응답 반환
 
         +) JAVA EE(Enterprise Edition) 플랫폼의 일부
-            >> 대부분 자바 웹 프레임워크들이 Servlet 기술을 기반으로 동작
+            >> 대부분의 자바 웹 프레임워크들이 Servlet 기술을 기반으로 동작
 
     2. 서블릿 동작 구조
-        : 요청 >>> 컨테이너 >>> 서블릿 >> 비즈니스 로직 >> 응답
+        : 요청 >> 컨테이너 >> 서블릿 >> 비즈니스 로직 >> 응답
 
         [ 클라이언트(브라우저) ] HTTP 요청
             |
-        [ 웹서버 / 서블릿 컨테이너 ] 톰캣, 제티 등
+        [ 웹 서버 / 서블릿 컨테이너 ] 톰캣, 제티 등
             |
-            | : URL 매핑 ("/hello" 경로 >> HelloServlet
+            | : URL 매핑 ("/hello" 경로 >> HelloServlet 클래스)
             |
-        [ 서블릿 ] service() 호출 - doGet()/doPost() -필요한 작업 수행
+        [ 서블릿 ] service() 호출 - doGet()/doPost() - 필요한 작업 수행
             |
-        [ 서비스 | DAO | 리포지토리 | DB ] 비즈니스 로직 데이터 접근
+        [ 서비스 | DAO | 리포지토리 | DB ] 비즈니스 로직, 데이터 접근
             |
             | : 결과(Model)
             |
@@ -38,12 +38,12 @@ package com.example.k5_iot_springboot.이론;
             service(): 매 요청마다 호출 >> 내부에서 doGet()/doPost() 등으로 분기
             destroy(): 컨테이너 종료 시 정리
 
-        2) 매핑(web.xml 또는 어노테이션 @WebServlet)으로 어떤 URL이 어떤 서블릿으로 연결되는지 개발자가 명시)
+        2) 매핑(web.xml 또는 어노테이션 @WebServlet)으로 어떤 URL이 어떤 서블릿으로 연결되는지 개발자가 명시
         3) 순수 서블릿은 요청 파싱, 모델 구성, 뷰 렌더링을 개발자가 직접 처리 - 중복 코드 증가
 
-        >> 순서 서블릿의 불편함을 표준화/자동화 해주는 프론트 컨트롤러 패턴의 구현이
+        >> 순수 서블릿의 불편함을 표준화/자동화해주는 프론트 컨트롤러 패턴의 구현이
             스프링 MVC의 DispatcherServlet
- */
+*/
 
 public class C_Servlet {
 }

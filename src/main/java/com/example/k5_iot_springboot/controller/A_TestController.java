@@ -11,11 +11,11 @@ import java.util.List;
 // @Controller
 // : 웹 요청을 처리하는 클래스 임을 명시 (반환되는 데이터 타입이 유연 - JSP, Thymeleaf 등)
 // @ResponseBody
-// - 데이터를 반환할 때 HTTP 응답 본문에 직접 출력 / 뷰 리졸버를 거치지 않음 / 데이터 직렬화 수행 (JSON, XML 등)
+// : 데이터를 반환할 때 HTTP 응답 본문에 직접 출력 / 뷰 리졸버를 거치지 않음 / 데이터 직렬화 수행 (JSON, XML 등)
 @RestController
 // : @Controller + @ResponseBody
 @RequestMapping("/test")
-// : 클라이언트의 특정 URI로 요청이 올 때, 특정 클래스나 메서드와 연결시켜주는 어노테이션 (매핑 담당)
+// : 클라이언트의 특정 URI 요청이 올 때, 특정 클래스나 메서드와 연결시켜주는 어노테이션 (매핑 담당)
 // >> @RequestMapping("URI경로")
 public class A_TestController {
     // controller: 클라이언트의 요청을 "처리"
@@ -32,7 +32,7 @@ public class A_TestController {
         return result;
     }
 
-    // 요청 구조: HTTP 메서드 + URI 경로 (URI 자원에 어떠한 HTTP 동작을 실행할 것잍지 명시하여 요청)
+    // 요청 구조: HTTP 메서드 + URI 경로 (URI 자원에 어떠한 HTTP 동작을 실행할 것인지 명시하여 요청)
     @GetMapping("/all")
     public List<A_Test> getAllTests() {
         List<A_Test> result = testService.getAllTests();
@@ -55,7 +55,4 @@ public class A_TestController {
     public void deleteTest(@PathVariable Long testId) {
         testService.deleteTest(testId);
     }
-
-
-
 }

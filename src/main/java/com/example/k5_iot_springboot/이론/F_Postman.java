@@ -6,6 +6,7 @@ package com.example.k5_iot_springboot.이론;
 //      >> 프론트에서 요청 코드나 응답 처리 코드를 작성하지 않더라도
 //          , 프로세스에 대한 결과 확인 가능
 
-
+// https://www.postman.com/downloads/
+// : 사이트 접속 >> 운영체제에 맞는 시스템 설치 (로그인)
 public class F_Postman {
 }

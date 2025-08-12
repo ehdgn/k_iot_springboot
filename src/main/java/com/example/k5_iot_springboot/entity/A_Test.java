@@ -28,10 +28,10 @@ public class A_Test {
     //      - 필드에 첨부, 옵션 없이 사용 가능
     //      - 다른 어노테이션과 함께 기본키 생성 방식이나 타입 지정 가능
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // 2) GeneratedValue
+    // 2) @GeneratedValue
     //      : MySQL의 AUTO_INCREMENT에 맞춰 자동 증가
     @Column(name = "test_id", updatable = false)
-    // 3) Column
+    // 3) @Column
     //      : 필드를 특정 테이블의 열과 매핑
     //      - 생략 시 기본으로 필드 이름이 열 이름으로 사용 (lowerCamelCase >> lower_snake_case)
     //      +) 옵션

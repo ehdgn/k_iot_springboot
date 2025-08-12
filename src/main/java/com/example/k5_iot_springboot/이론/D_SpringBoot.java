@@ -17,10 +17,10 @@ package com.example.k5_iot_springboot.이론;
     3. 스프링 부트의 동작 구조
 
     [클라이언트] - [서블릿 컨테이너] - [Dispatcher Servlet]
-                                            |
-                             뷰 / 핸들러 매핑 / 핸들러 어댑터 / 뷰 리졸버
-                                                   |
-                                                 컨트롤러
+                                          |
+                         뷰 / 핸들러 매핑 / 핸들러 어댑터 / 뷰 리졸버
+                                                |
+                                             컨트롤러
 
     1) 클라이언트 >> 서블릿 컨테이너 >> Dispatcher Servlet(DS)
         : 클라이언트에서 "요청"이 들어오면
@@ -35,7 +35,7 @@ package com.example.k5_iot_springboot.이론;
         - 해당 어댑터는 실제 컨트롤러와 연결되어 컨트롤러의 메서드를 실행하고
                 , 실행 결과(모델 & 뷰 이름 등)를 DS에 반환
         >> 어댑터
-            : 스프링은 컨트롤러 스타일이 달라도 공통 방식으로 호출 할 수 있도록 어댑터가 중간에서 표준화
+            : 스프링은 컨트롤러 스타일이 달라고 공통 방식으로 호출 할 수 있도록 어댑터가 중간에서 표준화
             (@Controller, @RestController 등)
 
     4) 핸들러 어댑터 >> 컨트롤러
@@ -50,17 +50,18 @@ package com.example.k5_iot_springboot.이론;
         : DS가 뷰 객체에 모델 데이터를 넘겨 렌더링을 수행
         (HTML 등이 서블릿 컨테이너를 통해 클라이언트에 응답으로 전송)
 
-    4. DispatcherServlet (dispatch 보내다)
+
+    4. DispatcherServlet(디스패처 서블릿, dispatch 보내다)
     : 스프링 부트의 핵심 서블릿
     - 클라이언트의 요청을 받아 "알맞은 핸들러(controller)"를 찾고 실행하며
         , 처리된 결과를 다시 클라이언트에게 반환
 
     1) 클라이언트 요청 처리
         : 사용자가 웹에서 요청(GET, POST, PUT, DELETE)을 보냄
-            - 서블릿 컨테이너(Tomcat)가 DS로 요청 전달
+            - 서블릿 컨테이너(톰캣)가 DS로 요청 전달
     2) Handler(Controller) 조회
-        : Handler Mapping을 통해 요청 URL에 맞는 "핸들러" 검색
-        EX) /students >> StudentController가 매핑
+        : Handler Mapping을 통해 요청 URI에 맞는 "핸들러" 검색
+        EX) /students >> StudentController 가 매핑
 
     3) Handler Adapter 조회
         : 매핑한 핸들러 실행을 위한 어댑터를 찾고 Controller가 실행될 수 있는 형태로 어댑터가 변환
@@ -68,14 +69,13 @@ package com.example.k5_iot_springboot.이론;
     4) Handler(Controller) 실행
         : 어댑터가 찾은 핸들러 실행
         - 요청 처리와 결과를 어댑터로 반환
- */
+*/
 
 /*
     === 서블릿(Servlet) VS 스프링부트(SpringBoot) ===
     1. 서블릿
-        1) 각 서블릿이 컨트롤러 역할까지 직접 함
-            - 구조를 스스로 만들고, 규칙도 스스로 정해야 함
-        2) 기능/URL 마다 여러 서블릿을 만들거나, 직접 프론트 컨트롤러 패턴(서블릿 1개 + 내부 분기)을 구현
+        1) 각 서블릿이 컨트롤러 역할까지 직접 함 - 구조를 스스로 만들고, 규칙도 스스로 정해야 함
+        2) 기능/URI 마다 여러 서블릿을 만들거나, 직접 프론트 컨트롤러 패턴(서블릿 1개 + 내부 분기)을 구현
 
     2. 스프링부트(MVC)
         1) DispatcherServlet 하나가 관문
@@ -84,14 +84,12 @@ package com.example.k5_iot_springboot.이론;
         2) 서블릿 레벨이 DispatcherServlet 1개면 충분 (스프링이 자동 등록)
             - 컨트롤러 클래스/메서드는 여러 개
                 >> 애플리케이션 코드 레벨
-                    서블릿이 여러 개가 아니라 POJO(Plain Old Java Object) 단위라 가볍고 일관적
+                    "서블릿 여러 개"가 아니라 POJO(Plain Old Java Object) 단위라 가볍고 일관적
 
                 cf) POJO 메서드
                     : 클래스 내부에 정의된 메서드를 의미
-                    - 특정 프레임워크나 기술에 중복되지 않고 순수하게 데이터와 로직을 캡슐화하는 객체를 의미
- */
-
-
+                    - 특정 프레임워크나 기술에 종속되지 않고 순수하게 데이터와 로직을 캡슐화하는 객체를 의미
+*/
 
 public class D_SpringBoot {
 }
