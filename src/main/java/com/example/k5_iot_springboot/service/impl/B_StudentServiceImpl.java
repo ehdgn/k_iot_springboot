@@ -101,8 +101,6 @@ public class B_StudentServiceImpl implements B_StudentService {
     }
 
 
-
-
     // === Entity >>> DTO 매핑 유틸 메서드 ===
     private StudentResponseDto toDto(B_Student student) {
         return new StudentResponseDto(

@@ -48,7 +48,6 @@ public class B_StudentController {
         return ResponseEntity.created(location).body(created);
     }
 
-
     // 2) 전체 학생 목록 조회 (GET)
     @GetMapping
     public ResponseEntity<List<StudentResponseDto>> getAllStudents() {
@@ -62,7 +61,6 @@ public class B_StudentController {
         StudentResponseDto result = studentService.getStudentById(id);
         return ResponseEntity.ok(result);
     }
-
 
     // 4) 특정 학생 수정 (PUT + /{id})
     @PutMapping("/{id}")
@@ -88,44 +86,4 @@ public class B_StudentController {
         List<StudentResponseDto> result = studentService.filterStudentsByName(name);
         return ResponseEntity.ok(result);
     }
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
