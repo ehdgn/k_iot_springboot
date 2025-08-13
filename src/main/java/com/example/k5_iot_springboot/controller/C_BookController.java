@@ -1,5 +1,6 @@
 package com.example.k5_iot_springboot.controller;
 
+import com.example.k5_iot_springboot.common.constants.ApiMappingPattern;
 import com.example.k5_iot_springboot.dto.C_Book.BookCreateRequestDto;
 import com.example.k5_iot_springboot.dto.C_Book.BookResponseDto;
 import com.example.k5_iot_springboot.dto.C_Book.BookUpdateRequestDto;
@@ -14,10 +15,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/books")
+@RequestMapping(ApiMappingPattern.Books.ROOT)
 @RequiredArgsConstructor
 public class C_BookController {
     private final C_BookService bookService;
+
+    private static final String BOOK_BY_ID = "/{id}";
+    private static final String BOOK_SEARCH_BY_TITLE = "/search/title";
 
     // 1. 기본 CRUD
     // 1) CREATE - 책 생성
@@ -38,14 +42,14 @@ public class C_BookController {
     }
 
     // 3) READ - 단건 책 조회 (특정 ID)
-    @GetMapping("/{id}")
+    @GetMapping(BOOK_BY_ID)
     public ResponseEntity<ResponseDto<BookResponseDto>> getBookById(@PathVariable Long id) {
         ResponseDto<BookResponseDto> result = bookService.getBookById(id);
         return ResponseEntity.ok(result);
     }
 
     // 4) UPDATE - 책 수정
-    @PutMapping("/{id}")
+    @PutMapping(BOOK_BY_ID)
     public ResponseEntity<ResponseDto<BookResponseDto>> updateBook(
             @PathVariable Long id,
             @RequestBody BookUpdateRequestDto dto
@@ -55,7 +59,7 @@ public class C_BookController {
     }
 
     // 5) DELETE - 책 삭제
-    @DeleteMapping("/{id}")
+    @DeleteMapping(BOOK_BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteBook(@PathVariable Long id) {
         ResponseDto<Void> result = bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
@@ -82,7 +86,7 @@ public class C_BookController {
     //      >> enum 타입 같은 제한된 값에 주로 사용
 
     // 1) 제목에 특정 단어가 포함된 책 조회
-    @GetMapping("/search/title") // "/search/title?keyword=자바"
+    @GetMapping(BOOK_SEARCH_BY_TITLE) // "/search/title?keyword=자바"
     public ResponseEntity<ResponseDto<List<BookResponseDto>>> getBooksByTitleContaining(
             @RequestParam String keyword
             // 경로값에 ? 이후의 데이터를 키-값 쌍으로 추출되는 값 (? 키=값)
