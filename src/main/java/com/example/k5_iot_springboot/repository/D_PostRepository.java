@@ -10,31 +10,31 @@ import java.util.List;
 import java.util.Optional;
 
 /*
-* Post와 Comment의 관계가 1:N의 관계
-*
-* D_Post post = postRepository.findById(id).get();
-* post.getComments.forEach(...); // 댓글 접근
-*
-* == 코드 풀이 ==
-* 1) 첫 번째 쿼리: SELECT * FROM posts WHERE id=?
-* 2) 두 번째 쿼리: LAZY 설정 코드를 "여러 번" 실행할 때마다 초기화를 위한 SELECT문이 별도로 실행
-*
-* ## 상황 1) 단일 Post만 조회하는 경우 ##
-* -- 1번째 쿼리
-*   SELECT * FROM posts WHERE id=?
-* -- 2번째 쿼리: 이후 post.getComments() 처음 호출 시
-*   댓글 컬렉션 초기화용으로 딱 1번 실행
-*   SELECT * FROM comments where post_id=?
-*
-* ## 상황 2) Post를 N개 먼저 가져온 뒤 각 Post마다 getComments() 호출
-* -- 1번째 쿼리
-*   SELECT * FROM posts limit 20;
-* -- 2번째 쿼리
-*   SELECT * FROM comments where post_id=? (총 20번 실행)
-*
-* 1번째 쿼리(1) + 2번째 쿼리(N)
-* >> 1+N 문제 발생
-* */
+ * Post와 Comment의 관계가 1:N의 관계
+ *
+ * D_Post post = postRepository.findById(id).get();
+ * post.getComments.forEach(...); // 댓글 접근
+ *
+ * == 코드 풀이 ==
+ * 1) 첫 번째 쿼리: SELECT * FROM posts WHERE id=?
+ * 2) 두 번째 쿼리: LAZY 설정 코드를 "여러 번" 실행할 때마다 초기화를 위한 SELECT문이 별도로 실행
+ *
+ * ## 상황 1) 단일 Post만 조회하는 경우 ##
+ * -- 1번째 쿼리
+ *   SELECT * FROM posts WHERE id=?
+ * -- 2번째 쿼리: 이후 post.getComments() 처음 호출 시
+ *   댓글 컬렉션 초기화용으로 딱 1번 실행
+ *   SELECT * FROM comments where post_id=?
+ *
+ * ## 상황 2) Post를 N개 먼저 가져온 뒤 각 Post마다 getComments() 호출
+ * -- 1번째 쿼리
+ *   SELECT * FROM posts limit 20;
+ * -- 2번째 쿼리
+ *   SELECT * FROM comments where post_id=? (총 20번 실행)
+ *
+ * 1번째 쿼리(1) + 2번째 쿼리(N)
+ * >> 1+N 문제 발생
+ * */
 
 @Repository
 public interface D_PostRepository extends JpaRepository<D_Post, Long> {
@@ -109,12 +109,12 @@ public interface D_PostRepository extends JpaRepository<D_Post, Long> {
 
     // == 7) 제목 키워드 검색 (JPQL & Native SQL) == //
     /*
-    * SELECT * FROM posts
-    * WHERE
-    *   title LIKE %keyword%
-    * ORDER BY
-    *   id DESC
-    * */
+     * SELECT * FROM posts
+     * WHERE
+     *   title LIKE %keyword%
+     * ORDER BY
+     *   id DESC
+     * */
     @Query("""
         select P
         from D_Post P
@@ -171,4 +171,50 @@ public interface D_PostRepository extends JpaRepository<D_Post, Long> {
         LIMIT :limit
     """, nativeQuery = true)
     List<PostWithCommentCountProjection> findTopPostsByCommentCount_Native(@Param("limit") int limit);
+
+    // 9) 특정 키워드를 포함하는 "댓글"이 달린 게시글 조회
+    public interface PostListProjection {
+        Long getId();
+        String getTitle();
+        String getContent();
+        String getAuthor();
+    }
+
+    @Query(value = """
+        SELECT 
+            P.id        AS id,
+            P.title     AS title,
+            p.content   AS content,
+            P.author    AS author
+        FROM    
+            posts P
+                LEFT JOIN comments C 
+                ON C.post_id = P.id
+        WHERE  
+            LOWER(C.content) LIKE LOWER(CONCAT('%', :keyword, '%'))
+        GROUP BY
+            P.id, P.title, P.content, P.author
+        ORDER BY
+            P.id DESC            
+    """, nativeQuery = true)
+    List<PostListProjection> findByCommentKeyword(@Param("keyword") String keyword);
+
+    @Query(value = """
+        SELECT
+                p.id        AS postId,
+                p.title     AS title,
+                p.author    AS author,
+                COUNT(c.id) AS commentCount
+        FROM posts p
+            LEFT JOIN comments c ON c.post_id = p.id
+        WHERE p.author = :author
+        GROUP BY p.id, p.title, p.author
+        HAVING COUNT(c.id) >= :minCount
+        ORDER BY commentCount DESC, p.id DESC
+    """, nativeQuery = true)
+
+    List<PostWithCommentCountProjection> findAuthorPostsWithMinCount(
+            @Param("author") String author,
+            @Param("minCount") int minCount
+    );
 }
