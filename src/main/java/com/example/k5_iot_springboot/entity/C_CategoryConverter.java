@@ -13,6 +13,6 @@ public class C_CategoryConverter implements AttributeConverter<C_Category, Strin
 
     @Override
     public C_Category convertToEntityAttribute(String s) {
-        return C_Category.fromDBValue(s);
+        return C_Category.fromDbValue(s);
     }
 }

@@ -13,7 +13,6 @@ import lombok.Setter;
                 @UniqueConstraint(name = "uk_book_writer_title", columnNames = {"writer", "title"})
         }
 
-
 )
 @Getter
 @Setter

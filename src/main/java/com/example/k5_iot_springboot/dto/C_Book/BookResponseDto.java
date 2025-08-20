@@ -14,4 +14,5 @@ public class BookResponseDto {
     private String writer;
     private String title;
     private C_Category category;
+
 }

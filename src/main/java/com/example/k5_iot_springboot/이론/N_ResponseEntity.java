@@ -7,7 +7,6 @@ package com.example.k5_iot_springboot.이론;
     1) 타입
         : 제네릭 T 타입
         - 응답 바디의 타입 (UserResponseDto, List<UserResponseDto>, Void 등)
-
     2) 상속
         : HttpEntity<T>를 상속하고 status 필드를 추가한 형태
 
@@ -18,7 +17,7 @@ package com.example.k5_iot_springboot.이론;
     // 200 OK
     return ResponseEntity.ok(응답데이터);
 
-    // 201 Created (+ Location 헤더)
+    // 201 Created (+Location 헤더)
     return ResponseEntity.created(uri).body(응답데이터);
 
     // 204 No Content (바디 없음)
@@ -29,10 +28,7 @@ package com.example.k5_iot_springboot.이론;
 
     // 400 Bad Request (+바디)
     return ResponseEntity.badRequest().body(에러객체);
-
-
- */
-
+*/
 
 public class N_ResponseEntity {
 }

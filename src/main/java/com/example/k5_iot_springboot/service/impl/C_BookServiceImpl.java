@@ -33,8 +33,6 @@ public class C_BookServiceImpl implements C_BookService {
         } catch (Exception e) {
             return ResponseDto.setFailed("책 등록 중 문제가 발생하였습니다: " + e.getMessage());
         }
-
-
     }
 
     @Override
@@ -89,7 +87,7 @@ public class C_BookServiceImpl implements C_BookService {
             return ResponseDto.setSuccess("SUCCESS", null);
 
         } catch (Exception e) {
-            return ResponseDto.setFailed("책 삭제 중 문제가 발생하였습니다: " + e.getMessage());
+            return ResponseDto.setFailed("책 삭제 중 문제가 발생하였습니다.");
         }
     }
 
@@ -98,7 +96,7 @@ public class C_BookServiceImpl implements C_BookService {
         List<BookResponseDto> data = null;
 
         if (keyword == null || keyword.isEmpty()) {
-            return ResponseDto.setFailed("검색 키워드를 입력해주세요");
+            return ResponseDto.setFailed("검색 키워드를 입력해주세요.");
         }
 
         List<C_Book> found = bookRepository.findByTitleContaining(keyword);
@@ -111,14 +109,15 @@ public class C_BookServiceImpl implements C_BookService {
                 .map(this::toResponse)
                 .collect(Collectors.toList());
 
-        return ResponseDto.setSuccess("SUCCESS", data);
+        return ResponseDto.setSuccess("SUCCESS", data) ;
     }
 
     @Override
     public ResponseDto<List<BookResponseDto>> getBooksByCategory(C_Category category) {
         List<BookResponseDto> data = null;
+
         if (category == null) {
-            return ResponseDto.setFailed("카테고리를 선택해 주세요");
+            return ResponseDto.setFailed("카테고리를 선택해주세요.");
         }
 
         List<C_Book> found = bookRepository.findByCategory(category);
@@ -131,7 +130,7 @@ public class C_BookServiceImpl implements C_BookService {
                 .map(this::toResponse)
                 .collect(Collectors.toList());
 
-        return ResponseDto.setSuccess("SUCCESS", data);
+        return ResponseDto.setSuccess("SUCCESS", data) ;
     }
 
     // 유틸 메서드 (Entity >> Response Dto)
@@ -146,7 +145,7 @@ public class C_BookServiceImpl implements C_BookService {
 
     // Update 수정: 부분 수정 적용
     private void applyUpdates(C_Book entity, BookUpdateRequestDto dto) {
-            if (dto.getContent() != null) entity.setContent(dto.getContent());
-            if (dto.getCategory() != null) entity.setCategory(dto.getCategory());
+        if (dto.getContent() != null) entity.setContent(dto.getContent());
+        if (dto.getCategory() != null) entity.setCategory(dto.getCategory());
     }
 }

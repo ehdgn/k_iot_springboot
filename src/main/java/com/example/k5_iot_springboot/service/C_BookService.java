@@ -10,16 +10,11 @@ import java.util.List;
 
 public interface C_BookService {
     ResponseDto<BookResponseDto> createBook(BookCreateRequestDto dto);
-
     ResponseDto<List<BookResponseDto>> getAllBooks();
-
     ResponseDto<BookResponseDto> getBookById(Long id);
-
     ResponseDto<BookResponseDto> updateBook(Long id, BookUpdateRequestDto dto);
-
     ResponseDto<Void> deleteBook(Long id);
 
     ResponseDto<List<BookResponseDto>> getBooksByTitleContaining(String keyword);
-
     ResponseDto<List<BookResponseDto>> getBooksByCategory(C_Category category);
 }

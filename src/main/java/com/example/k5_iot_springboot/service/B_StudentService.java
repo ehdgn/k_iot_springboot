@@ -8,13 +8,9 @@ import java.util.List;
 
 public interface B_StudentService {
     StudentResponseDto createStudent(StudentCreateRequestDto student);
-
     List<StudentResponseDto> getAllStudents();
-
     StudentResponseDto getStudentById(Long id);
-
     StudentResponseDto updateStudent(Long id, StudentUpdateRequestDto requestDto);
-
     void deleteStudent(Long id);
 
     List<StudentResponseDto> filterStudentsByName(String name);

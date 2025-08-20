@@ -11,14 +11,9 @@ package com.example.k5_iot_springboot.이론;
     - 코드 재사용성: 응답 구조를 모든 요청-응답 사이클에서 사용 가능
 
     cf) ResponseEntity
-        :HTTP 응답 전체 구조를 일관성 있게 관리하는 클래스
+        : HTTP 응답 전체 구조를 일관성 있게 관리하는 클래스
         - 상태코드, 헤더, 바디 등을 포함
-
- */
-
-
-
-
+*/
 
 public class O_ResponseDto {
 }

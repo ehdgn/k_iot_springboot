@@ -33,7 +33,7 @@ public class B_Student {
     private String email;
 
     public B_Student(String name, String email) {
-        this.name = name;
         this.email = email;
+        this.name = name;
     }
 }
