@@ -83,10 +83,7 @@ public class BoardResponseDto {
                     .hasPrevious(p.hasPrevious())
                     .sort(sort)
                     .build();
-
         }
-
-
     }
 
     // === OffSet 기반 응답 === //

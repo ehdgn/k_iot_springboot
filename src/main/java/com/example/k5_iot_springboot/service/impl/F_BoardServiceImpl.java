@@ -25,11 +25,11 @@ public class F_BoardServiceImpl implements F_BoardService {
 
     // == 페이지네이션 공통: 안전한 Pageable 생성(화이트리스트 정렬) ==
     // : 정렬 키를 그대로 신뢰할 경우, 존재하지 않는 필드 또는 JPA 동적 JPQL에서 문자열 충돌 발생 가능
-    private static final Set<String> ALLOWER_SORTS = Set.of("id", "title", "createdAt", "updatedAt");
+    private static final Set<String> ALLOWED_SORTS = Set.of("id", "title", "createdAt", "updatedAt");
 
     private Pageable buildPageable(int page, int size, String[] sortParams) {
-        // 정렬 파라미터 파싱: [" created,desc", "title,asc"] 형태
-        Sort sort = Sort.by("createdAt").descending(); // 기본정렬: 최신순
+        // 정렬 파라미터 파싱: ["createdAt,desc", "title,asc"] 형태
+        Sort sort = Sort.by("createdAt").descending(); // 기본 정렬: 최신순
         // >> 정렬 파라미터가 없거나, 전부 화이트리스트에서 무시된 경우 디폴트 정렬을 사용
 
         if (sortParams != null && sortParams.length > 0) { // 빈 배열이 아닌 경우 (요소 1개 이상)
@@ -41,12 +41,14 @@ public class F_BoardServiceImpl implements F_BoardService {
                 String property = t[0].trim();
 
                 // 화이트리스트에 없는 속성은 무시
-                if (!ALLOWER_SORTS.contains(property)) continue;
+                if (!ALLOWED_SORTS.contains(property)) continue;
 
                 Sort.Direction dir = Sort.Direction.DESC;
                 // 기본 정렬 방향을 DESC - 피드/게시물은 최신순 정렬이 일반 (권장)
-                if (t.length > 1) { // 정렬 기준 존재
-                    dir = "asc".equalsIgnoreCase(t[1].trim()) ? Sort.Direction.ASC : Sort.Direction.DESC;
+                if (t.length > 1) { // 정렬기준이 존재
+                    dir = "asc".equalsIgnoreCase(t[1].trim())
+                            ? Sort.Direction.ASC
+                            : Sort.Direction.DESC;
                 }
                 orders.add(new Sort.Order(dir, property));
                 // : 파싱한 정렬 기준 한 건을 Sort.Order 객체로 만들어 목록에 추가
@@ -54,8 +56,8 @@ public class F_BoardServiceImpl implements F_BoardService {
             }
             if (!orders.isEmpty()) sort = Sort.by(orders); // 비워지지 않은 경우 sort값 재할당
         }
-
-        return PageRequest.of(page, size, sort); // sortParams가 비워진 경우 || 유효한 정렬이 없는 경우
+        return PageRequest.of(page, size, sort);
+        // sortParams가 비워진 경우 || 유효한 정렬이 없는 경우
     }
 
     @Transactional
@@ -81,17 +83,20 @@ public class F_BoardServiceImpl implements F_BoardService {
         List<BoardResponseDto.SummaryResponse> result = boards.stream()
                 .map(BoardResponseDto.SummaryResponse::from)
                 .toList();
+
         return ResponseDto.setSuccess("SUCCESS", result);
     }
 
     @Transactional
     @Override
-    public ResponseDto<BoardResponseDto.DetailResponse> updatedBoard(Long boardId, BoardRequestDto.@Valid UpdateRequest request) {
+    public ResponseDto<BoardResponseDto.DetailResponse> updateBoard(Long boardId, BoardRequestDto.@Valid UpdateRequest request) {
         F_Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("해당 id의 게시글을 찾을 수 없습니다."));
 
         board.update(request.title(), request.content());
 
+        // F_Board saved = boardRepository.save(board);
+        //BoardResponseDto.DetailResponse result = BoardResponseDto.DetailResponse.from(saved);
 
         // cf) updatedAt의 데이터 확인
         //      : JPA Auditing이 flush/commit 시점에 @PreUpdate가 실행되면 채워짐
@@ -102,12 +107,9 @@ public class F_BoardServiceImpl implements F_BoardService {
         // cf) save() VS flush()
         // 1) save()
         // : Spring Data JPA Repository 메서드
-        // - 새로운 엔티티 INSERT, 이미 존재하는 엔티티 UPDATE,
+        // - 새로운 엔티티 INSERT, 이미 존재하는 엔티티 UPDATE
         //      >> 영속 상태를 처리
         //      +) findById로 가져온 엔티티는 이미 영속 상태를 가져 save() 안해도 커밋 시점에 자동 UPDATE
-
-        // F_Board saved = boardRepository.save(board);
-        // BoardResponseDto.DetailResponse result = BoardResponseDto.DetailResponse.from(saved);
 
         // 2) flush()
         // : JPA(EntityManager) 메서드
@@ -129,12 +131,12 @@ public class F_BoardServiceImpl implements F_BoardService {
     //      : count 쿼리 실행 X, 데이터 개수를 size + 1로 요청해서 다음 페이지 존재 여부만 판단
 
     @Override
-    public ResponseDto<BoardResponseDto.PageResponse> getBoardsPage(int page, int size, String[] sort) {
-        Pageable pageable = buildPageable(page, size, sort);
+    public ResponseDto<BoardResponseDto.PageResponse> getBoardsPage(Pageable pageable) {
+//        Pageable pageable = buildPageable(page, size, sort);
 
         // cf) Pageable 인터페이스
         //      : 페이징과 정렬 정보를 추상화한 인터페이스
-        //      >>  현재 페이지 번호, 한 페이지의 크기, 정렬 정보 반환
+        //      >> 현재 페이지 번호, 한 페이지의 크기, 정렬 정보 반환
         //              , 다음 페이지 객체 생성, 이전 페이지 객체 생성
         //      >> 특징
         //          : 실제 구현체는 PageRequest 사용 (PageRequest.of(page, size, sort))
@@ -175,7 +177,7 @@ public class F_BoardServiceImpl implements F_BoardService {
             nextCursor = content.get(content.size() - 1).id(); // 마지막 아이템 id
         }
 
-        BoardResponseDto.SliceResponse  result = BoardResponseDto.SliceResponse.builder()
+        BoardResponseDto.SliceResponse result = BoardResponseDto.SliceResponse.builder()
                 .content(content)
                 .hasNext(slice.hasNext())
                 .nextCursor(nextCursor)
