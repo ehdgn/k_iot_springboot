@@ -94,9 +94,7 @@ public class BoardResponseDto {
     public record PageResponse(
             List<SummaryResponse> content,
             PageMeta meta
-    ) {
-
-    }
+    ) {}
 
     // === Cursor 기반 응답 === //
     @Builder
@@ -104,7 +102,5 @@ public class BoardResponseDto {
             List<SummaryResponse> content,
             boolean hasNext,
             Long nextCursor // 다음 호출 시 사용할 cursorId(마지막 아이템의 id 등)
-    ){
-
-    }
+    ){}
 }

@@ -16,5 +16,5 @@ public interface F_BoardService {
 
     ResponseDto<BoardResponseDto.PageResponse> getBoardsPage(@Min(0) int page, @Min(1) @Max(100) int size, String[] sort);
 
-    ResponseDto<BoardResponseDto.SliceResponse> getBoardsByCursor(Long cusorId, @Min(1) @Max(100) int size);
+    ResponseDto<BoardResponseDto.SliceResponse> getBoardsByCursor(Long cursorId, @Min(1) @Max(100) int size);
 }

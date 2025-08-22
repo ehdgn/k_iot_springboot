@@ -60,10 +60,10 @@ public class F_BoardController {
             // 처음 요청이면 null >> 가장 최신부터 시작
             // : 목록을 항상 하나의 정렬 기준으로 고정! (id DESC - 최신글 먼저)
             // > 다음 페이지를 가져올 때는 기준 커서보다 더 오래된 (작은 id) 행만 가져오기
-            @RequestParam(required = false) Long cusorId,
+            @RequestParam(required = false) Long cursorId,
             @RequestParam(defaultValue = "10") @Min(1) @Max(100) int size
     ) {
-        ResponseDto<BoardResponseDto.SliceResponse> response = boardService.getBoardsByCursor(cusorId, size);
+        ResponseDto<BoardResponseDto.SliceResponse> response = boardService.getBoardsByCursor(cursorId, size);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
