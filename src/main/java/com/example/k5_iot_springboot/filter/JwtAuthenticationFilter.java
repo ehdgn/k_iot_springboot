@@ -18,18 +18,19 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /*
-* === JwtAuthenticationFilter ===
-* : JWT 인증 필터
-* - 요청에서 JWT 토큰을 추출
-* - request의 header에서 토큰을 추출하여 검증 (유효한 경우 Security의 context에 인정 정보 설정)
-*
-* cf) Spring Security가 OncePerRequestFilter를 상속받아 매 요청마다 실행
-* */
+ * === JwtAuthenticationFilter ===
+ * : JWT 인증 필터
+ * - 요청에서 JWT 토큰을 추출
+ * - request의 header에서 토큰을 추출하여 검증 (유효한 경우 Security의 context에 인증 정보 설정)
+ *
+ * cf) Spring Security가 OncePerRequestFilter를 상속받아 매 요청마다 실행
+ * */
 @Component // 스프링이 해당 클래스를 관리하도록 지정, 의존성 주입
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -39,14 +40,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider; // 의존성 주입
 
-
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        try{
+        try {
             // 이미 인증된 컨텍스트가 있으면 스킵 (다른 필터가 인증처리를 한 경우)
             if (SecurityContextHolder.getContext().getAuthentication() != null) {
                 filterChain.doFilter(request, response);
@@ -73,7 +73,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            String username = jwtProvider.getUsernameFromJWT(token);
+            String username = jwtProvider.getUsernameFromJwt(token);
             Set<String> roles = jwtProvider.getRolesFromJwt(token);
 
             // 권한 문자열 - GrantedAuthority로 매핑 ("ROLE_" 접두어 보장)
@@ -89,7 +89,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    /* SecurityContextHolder에 인증 객체 세팅*/
+    /** SecurityContextHolder에 인증 객체 세팅 */
     private void setAuthenticationContext(
             HttpServletRequest request,
             String username,
@@ -111,7 +111,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.setContext(context);
     }
 
-    /* USER/ADMIN -> "ROLE_USER"/"ROLE_ADMIN" 으로 매핑*/
+    /** USER/ADMIN -> "ROLE_USER"/"ROLE_ADMIN" 으로 매핑 */
     private List<GrantedAuthority> toAuthorities(Set<String> roles) {
         if (roles == null || roles.isEmpty()) return List.of(); // 권한이 없으면 빈 배열 반환
         return roles.stream()
