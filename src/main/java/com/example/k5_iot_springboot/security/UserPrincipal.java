@@ -1,6 +1,7 @@
 package com.example.k5_iot_springboot.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,8 +44,54 @@ public class UserPrincipal implements UserDetails {
     private final String password;                                      // 해시 비밀번호
     private final Collection<? extends GrantedAuthority> authorities;   // 권한
 
-    // === UserDetails 구현 === //
-    @Override public Collection<? extends GrantedAuthority> getAuthorities() { return List.of();}
-    @Override public String getPassword() { return "";}
-    @Override public String getUsername() { return "";}
+    //* 계정 상태 플래그들 *//
+    // 각 데이터가 false면 만료 - 로그인 거부
+
+    // EX) 도메인 정책 예시
+    //      1. 비밀번호 5회 실패 - accountNonLocked=false
+    //      2. 장기 미접속 휴면 - enabled=false
+    //      3. 주기적 비밀번호 변경 - credentialsNonExpired=false
+
+    private final boolean accountNonExpired;                            // 계정 만료 여부
+    private final boolean accountNonLocked;                             // 계정 잠금 여부
+    private final boolean credentialsNonExpired;                        // 비밀번호(자격) 만료 여부
+    private final boolean enabled;                                      // 활성화 여부
+
+    // 생성자: 불변 객체 생성을 위한 Builder 기반 생성자
+    // - 서비스/어댑터 계층에서 엔티티 정보를 읽고, 필요한 정보만 골라 UserPrincipal로 변환하여 반환
+    @Builder
+    private UserPrincipal(
+            Long id,
+            String username,
+            String password,
+            Collection<? extends GrantedAuthority> authorities,
+            boolean accountNonExpired,
+            boolean accountNonLocked,
+            boolean credentialsNonExpired,
+            boolean enabled
+    ) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
+    }
+
+    // === UserDetails 인터페이스 구현 === //
+    /*
+        Spring Security가 AuthenticationProvider 및 AccessDecisionManager를 통해
+            인증/인가 수행 시 아래의 메서드 사용
+
+        >> 값 반환 이외의 로직 X
+     */
+    @Override public Collection<? extends GrantedAuthority> getAuthorities() { return authorities;}
+    @Override public String getPassword() { return password;}
+    @Override public String getUsername() { return username;}
+    @Override public boolean isAccountNonExpired() { return accountNonExpired;}
+    @Override public boolean isAccountNonLocked() { return accountNonLocked;}
+    @Override public boolean isCredentialsNonExpired() { return credentialsNonExpired;}
+    @Override public boolean isEnabled() { return enabled;}
 }
