@@ -35,5 +35,4 @@ public class I_Product extends BaseTimeEntity {
         this.name = name;
         this.price = price;
     }
-
 }
