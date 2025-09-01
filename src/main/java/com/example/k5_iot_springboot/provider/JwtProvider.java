@@ -66,7 +66,6 @@ public class JwtProvider {
             @Value("${jwt.clock-skew-seconds:0}") int clockSkewSeconds // 기본 0 - 옵션
     ) {
         // 생성자: JwtProvider 객체 생성 시 비밀키와 만료시간 초기화
-
         // 키 강도 검증(Base64 디코딩 후 256 비트 이상 권장)
         byte[] secretBytes = Decoders.BASE64.decode(secret);
         if (secretBytes.length < 32) {
@@ -216,11 +215,4 @@ public class JwtProvider {
         Claims c = parseClaimsInternal(tokenWithoutBearer, true);
         return c.getExpiration().getTime() - System.currentTimeMillis();
     }
-
-
-
-
-
-
-
 }

@@ -98,7 +98,6 @@ public class H_ArticleServiceImpl implements H_ArticleService {
         ArticleDetailResponse data = ArticleDetailResponse.from(article);
 
         return ResponseDto.setSuccess("SUCCESS", data);
-
     }
 
     @Override
@@ -127,3 +126,6 @@ public class H_ArticleServiceImpl implements H_ArticleService {
         }
     }
 }
+/*
+
+ */
