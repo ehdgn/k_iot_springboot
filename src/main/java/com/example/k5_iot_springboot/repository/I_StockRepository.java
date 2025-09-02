@@ -10,6 +10,22 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface I_StockRepository extends JpaRepository<I_Stock, Long> {
+    // === 락킹 기법 (Locking) === //
+    // 1. 락킹
+    // : DB에서 동시에 여러 트랜잭션이 같은 데이터를 접근할 때 데이터의 정확성 (일관성)을 보장하기 위해 사용하는 방법
+    // >> 데이터를 건드리는 동안 데이터의 접근 권한을 제어
+
+    // 1) 비관적 락 (Pessimistic)
+    //      - 다른 트랜잭션이 반드시 해당 데이터를 건드릴 것이라고 비관적으로 가정하고
+    //          , 데이터를 읽거나 수정하기 전에 아예 잠궈버리는 방식
+    // [장점]: 충돌 가능성 방지, 데이터 무결성 보장
+    // [단점]: 동시성이 떨어짐 (다른 트랜잭션은 대기해야 함 - 성능 저하)
+    // >> Repository에서 설정
+
+    // 2) 낙관적 락 (Optimistic)
+    //      - 다른 트랜잭션이 동시에 데이터를 수정하지 않을 것이라고 낙관적으로 가정하고
+    //          , 실제 커밋할 때 버전 번호(Version)을 비교해 충돌 감지 방식
+    // >> 주로 @Version 필드를 엔티티에 두고 JPA가 관리
     
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     // 비관적 잠금(재고 경합 제어를 위함)
