@@ -19,9 +19,9 @@ public class OrderTotalsView {
     @Id @Column(name = "order_id")
     private Long orderId;
 
-    private Long userId;
+    private Long user_id;
     private String order_status;
-    private Integer order_total_amount;
+    private Long order_total_amount;
     private Long order_total_qty;
 
     @Column(name = "ordered_at")
