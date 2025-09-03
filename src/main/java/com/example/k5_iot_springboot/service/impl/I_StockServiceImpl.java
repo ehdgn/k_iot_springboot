@@ -58,6 +58,7 @@ public class I_StockServiceImpl implements I_StockService {
                 .orElseThrow(() -> new EntityNotFoundException("재고 정보를 찾을 수 없습니다. productId = " + req.productId()));
 
         if (req.quantity() < 0) throw new IllegalArgumentException("재고는 0이상이어야 합니다.");
+
         stock.setQuantity(req.quantity());
 
         data = new StockResponse.Response(
