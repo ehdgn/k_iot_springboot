@@ -75,9 +75,4 @@ public class I_OrderController {
         ResponseDto<List<OrderResponse.Detail>> response = orderService.search(userPrincipal, userId, status, from, to);
         return ResponseEntity.ok(response);
     }
-
-
-
-
-
 }
