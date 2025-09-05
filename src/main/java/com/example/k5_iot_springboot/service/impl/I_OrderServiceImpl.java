@@ -1,5 +1,4 @@
 package com.example.k5_iot_springboot.service.impl;
-
 import com.example.k5_iot_springboot.common.enums.OrderStatus;
 import com.example.k5_iot_springboot.common.utils.DateUtils;
 import com.example.k5_iot_springboot.dto.I_Order.request.OrderRequest;
@@ -11,7 +10,6 @@ import com.example.k5_iot_springboot.repository.I_ProductRepository;
 import com.example.k5_iot_springboot.repository.I_StockRepository;
 import com.example.k5_iot_springboot.security.UserPrincipal;
 import com.example.k5_iot_springboot.service.I_OrderService;
-import com.example.k5_iot_springboot.이론._gitignore;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
