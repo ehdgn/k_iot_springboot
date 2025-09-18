@@ -157,11 +157,11 @@ SELECT * FROM roles;
 
 ## 사용자 권한 매핑 삽입 ##
 INSERT INTO user_roles (user_id, role_name) VALUES
-	(1, 'USER'),
 	(2, 'USER'),
-    (2, 'MANAGER'),
+	(3, 'USER'),
     (3, 'MANAGER'),
-    (3, 'ADMIN')
+    (4, 'MANAGER'),
+    (4, 'ADMIN')
     ON DUPLICATE KEY UPDATE role_name = VALUES(role_name);
     
 SELECT * FROM `user_roles`;
