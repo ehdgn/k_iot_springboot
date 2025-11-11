@@ -402,8 +402,6 @@ SELECT * FROM `order_items`;
 SELECT * FROM `order_logs`;
 
 
-USE k5_iot_springboot;
-
 CREATE TABLE notice(
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -413,3 +411,23 @@ CREATE TABLE notice(
 );
 
 SELECT * FROM notice;
+
+CREATE TABLE refresh_tokens (
+	id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    username VARCHAR(100) NOT NULL,
+    token VARCHAR(512) NOT NULL,
+    expiry BIGINT NOT NULL,
+    
+    UNIQUE KEY `uk_refresh_username` (username),
+    UNIQUE KEY `uk_refresh_token` (token)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci
+  COMMENT = 'JWT Refresh Token 저장 테이블';
+
+SELECT * FROM refresh_tokens;
+
+
+USE k5_iot_springboot;
+
+
