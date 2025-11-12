@@ -125,7 +125,7 @@ public class JwtProvider {
                 .claim(CLAIM_ROLES, roleList) // 커스텀 클레임 키에 권한 목록 저장 (payload에 저장)
                 .setIssuedAt(iat) // 표준 클레임에 현재 시간 설정 (발행 시간)
                 .setExpiration(exp) // 현재 시간에 만료 시간을 더한 설정 (만료 시간)
-//                .signWith(key, SignatureAlgorithm.HS256)
+                //.signWith(key, SignatureAlgorithm.HS256)
                 .signWith(key) // 서명 키로 서명 (자동 HS256 선택) - 비밀키를 서명 (signature에 저장)
                 .compact(); // 빌더를 압축하여 최종 JWT 문자열 생성
     }
